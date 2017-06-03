@@ -26,7 +26,7 @@
         android:inputType="textPersonName"
         android:ems="10"
         android:textAlignment="center"
-        android:id="@+id/editText"
+        android:id="@+id/clueWord"
         tools:text="Type your clue..."
         android:layout_marginBottom="32dp"
         android:layout_above="@+id/textView3"
@@ -39,7 +39,7 @@
         android:textSize="9pt"
         android:textAlignment="center"
         android:id="@+id/textView2"
-        android:layout_above="@+id/editText"
+        android:layout_above="@+id/clueWord"
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="21dp" />
 
@@ -53,6 +53,17 @@
         android:layout_alignParentStart="true"
         android:layout_marginTop="22dp" />
 
+    <Button
+        android:text="Start!"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/start"
+        android:layout_below="@+id/word"
+        android:layout_centerHorizontal="true"
+        android:background="#4b4eec"
+        android:textColor="#fff"
+        android:layout_marginTop="52dp" />
+
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -60,22 +71,11 @@
         android:text="Name"
         android:ems="10"
         android:textAlignment="center"
-        android:id="@+id/editText2"
+        android:id="@+id/word"
         tools:text="Your word here!"
-        android:layout_marginTop="27dp"
+        android:layout_marginTop="31dp"
         android:layout_below="@+id/textView3"
-        android:layout_alignStart="@+id/editText" />
-
-    <Button
-        android:text="Start!"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/button"
-        android:layout_below="@+id/editText2"
-        android:layout_centerHorizontal="true"
-        android:background="#4b4eec"
-        android:textColor="#fff"
-        android:layout_marginTop="52dp" />
+        android:layout_alignStart="@+id/clueWord" />
 
 
 </RelativeLayout>

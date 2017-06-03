@@ -10,16 +10,25 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:text="Clue: "
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:layout_marginTop="0pt"
+            android:textSize="12pt"
+            android:id="@+id/clue" />
+
+        <TextView
             android:text="TextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
-            android:layout_marginTop="30pt"
+            android:layout_marginTop="20pt"
             android:textSize="15pt"
-            android:id="@+id/textView4" />
+            android:id="@+id/hideWord" />
 
         <TextView
-            android:text="Letters tryed"
+            android:text="Guessed Letters"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -35,7 +44,7 @@
             android:textColor="#BD1D02"
             android:textAlignment="center"
             android:textSize="9pt"
-            android:id="@+id/textView6" />
+            android:id="@+id/guessedLetters" />
 
         <EditText
             android:layout_width="match_parent"
