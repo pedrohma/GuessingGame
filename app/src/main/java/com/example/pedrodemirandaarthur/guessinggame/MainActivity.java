@@ -1,5 +1,6 @@
 package com.example.pedrodemirandaarthur.guessinggame;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -22,33 +23,32 @@ public class MainActivity extends AppCompatActivity {
         wordEditText = (EditText) findViewById(R.id.word);
         btnStart = (Button) findViewById(R.id.start);
 
-    }
+        btnStart.setOnClickListener(new View.OnClickListener() {
 
+            @Override
+            public void onClick(View view) {
+                boolean isFulfill = true;
+                clueWord = clueWordEditText.getText().toString();
+                word = wordEditText.getText().toString();
 
-    public String HideWord(String word) {
+                if(clueWord.isEmpty() || clueWord.equals("")){
+                    clueWordEditText.setError("Clue Word can't be blank.");
+                    isFulfill = false;
+                }
+                if(word.isEmpty() || word.equals("")) {
+                    wordEditText.setError("Word can't be blank.");
+                    isFulfill = false;
+                }
 
-        String hideWord = "";
-        for (int i = 0; i < word.length(); i++) {
-            hideWord = "_" + " ";
-        }
-        return hideWord;
-    }
-
-    
-    public void onClick(View view) {
-
-        boolean isFulfill = true;
-        clueWord = clueWordEditText.getText().toString();
-        word = wordEditText.getText().toString();
-
-        if(clueWord.isEmpty() || clueWord.equals("")){
-            clueWordEditText.setError("Clue Word can't be blank.");
-            isFulfill = false;
-        }
-        if(word.isEmpty() || word.equals("")) {
-            clueWordEditText.setError("Clue Word can't be blank.");
-            isFulfill = false;
-        }
+                if(isFulfill){
+                    Intent intent = new Intent(MainActivity.this, GameActivity.class);
+                    intent.putExtra("clueWord", clueWord);
+                    intent.putExtra("word", word);
+                    startActivity(intent);
+                }
+            }
+        });
 
     }
+
 }

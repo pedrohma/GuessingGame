@@ -27,7 +27,7 @@
         android:ems="10"
         android:textAlignment="center"
         android:id="@+id/clueWord"
-        tools:text="Type your clue..."
+        tools:text=""
         android:layout_marginBottom="32dp"
         android:layout_above="@+id/textView3"
         android:layout_centerHorizontal="true" />
@@ -72,7 +72,7 @@
         android:ems="10"
         android:textAlignment="center"
         android:id="@+id/word"
-        tools:text="Your word here!"
+        tools:text=""
         android:layout_marginTop="31dp"
         android:layout_below="@+id/textView3"
         android:layout_alignStart="@+id/clueWord" />
