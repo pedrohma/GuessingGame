@@ -22,7 +22,6 @@ public class MainActivity extends AppCompatActivity {
         clueWordEditText = (EditText) findViewById(R.id.clueWord);
         wordEditText = (EditText) findViewById(R.id.word);
         btnStart = (Button) findViewById(R.id.start);
-<<<<<<< HEAD
 
         btnStart.setOnClickListener(new View.OnClickListener() {
 
@@ -49,29 +48,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-=======
-		
-		btnStart.setOnClickListener(new OnClickListener() {
-		
-		@Override
-			public void onClick(View v) {
-				boolean isFulfill = true;
-				clueWord = clueWordEditText.getText().toString();
-				word = wordEditText.getText().toString();
-
-				if(clueWord.isEmpty() || clueWord.equals("")){
-					clueWordEditText.setError("Clue Word can't be blank.");
-					isFulfill = false;
-				}
-				if(word.isEmpty() || word.equals("")) {
-					clueWordEditText.setError("Clue Word can't be blank.");
-					isFulfill = false;
-				}
-			}
-		});
-    }
-
->>>>>>> 2a1f987f55827bca9da5012985722bebf1481abc
 
     }
 
