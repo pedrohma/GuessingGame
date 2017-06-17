@@ -52,9 +52,8 @@
             android:inputType="textPersonName"
             android:textAlignment="center"
             android:layout_marginTop="15pt"
-            android:text="Name"
             android:ems="10"
-            android:id="@+id/editText3" />
+            android:id="@+id/inputLetter" />
 
         <Button
             android:text="Try!"
@@ -64,7 +63,7 @@
             android:layout_gravity="center"
             android:background="#4b4eec"
             android:textColor="#fff"
-            android:id="@+id/button2" />
+            android:id="@+id/btnTry" />
 
     </LinearLayout>
 </RelativeLayout>
