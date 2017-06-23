@@ -8,18 +8,20 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 /**
  * Created by pedrodemirandaarthur on 6/17/17.
  */
 
 public class GameActivity extends AppCompatActivity {
 
-    TextView clue, hideWord;
+    TextView clue, hideWord, guessedLetters;
     Button btnTry;
     EditText inputLetter;
     String clueWord, word, guessingLetter;
     char[] arrayWord, arrayHideWord;
-    String[] arrayGuessedLetters;
+    ArrayList<String> arrayGuessedLetters = new ArrayList<String>();
 
     boolean isOk = true;
 
@@ -34,6 +36,7 @@ public class GameActivity extends AppCompatActivity {
         hideWord = (TextView) findViewById(R.id.hideWord);
         btnTry = (Button) findViewById(R.id.btnTry);
         inputLetter = (EditText) findViewById(R.id.inputLetter);
+        guessedLetters = (TextView) findViewById(R.id.guessedLetters);
 
         clueWord =  (String) i.getSerializableExtra("clueWord");
         word =  (String) i.getSerializableExtra("word");
@@ -70,13 +73,19 @@ public class GameActivity extends AppCompatActivity {
     public String checkLetter(String letter){
         char charLetter = letter.charAt(0);
         String newHideWord = "";
+        Boolean thereIs = false;
         for(int i = 0; i < arrayWord.length; i++){
             if(arrayWord[i] == charLetter){
                 arrayHideWord[i] = charLetter;
+                thereIs = true;
             }
         }
         for(int j = 0; j < arrayHideWord.length; j++){
             newHideWord = newHideWord + arrayHideWord[j];
+        }
+        if(!thereIs){
+            arrayGuessedLetters.add(letter);
+            guessedLetters.setText(ReturnGuessedLetters());
         }
         return newHideWord;
     }
@@ -88,6 +97,14 @@ public class GameActivity extends AppCompatActivity {
             hideWord = hideWord + "_" + " ";
         }
         return hideWord;
+    }
+
+    public String ReturnGuessedLetters(){
+        String guessedLetters = "";
+        for(int i = 0; i < arrayGuessedLetters.size(); i++){
+            guessedLetters = guessedLetters + arrayGuessedLetters.get(i) + " ";
+        }
+        return guessedLetters;
     }
 
 }
