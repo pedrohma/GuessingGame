@@ -37,7 +37,7 @@
             android:id="@+id/textView5" />
 
         <TextView
-            android:text="A B C D E F"
+            android:text=""
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8pt"

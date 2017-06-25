@@ -1,7 +1,9 @@
 package com.example.pedrodemirandaarthur.guessinggame;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -81,17 +83,18 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         for(int j = 0; j < arrayHideWord.length; j++){
-            newHideWord = newHideWord + arrayHideWord[j];
+            newHideWord += arrayHideWord[j];
         }
         if(!thereIs){
-            arrayGuessedLetters.add(letter);
+            if(!hasLetter(letter)){
+                arrayGuessedLetters.add(letter);
+            }
             guessedLetters.setText(ReturnGuessedLetters());
         }
         return newHideWord;
     }
 
     public String HideWord(String word) {
-
         String hideWord = "";
         for (int i = 0; i < word.length(); i++) {
             hideWord = hideWord + "_" + " ";
@@ -104,7 +107,34 @@ public class GameActivity extends AppCompatActivity {
         for(int i = 0; i < arrayGuessedLetters.size(); i++){
             guessedLetters = guessedLetters + arrayGuessedLetters.get(i) + " ";
         }
+        if(arrayGuessedLetters.size() == 5){
+            new AlertDialog.Builder(this)
+                    .setTitle("Game Over!")
+                    .setMessage("Do you want to play again?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            MainActivity activity = new MainActivity();
+                            Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }})
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                            GameActivity.this.finish();
+                            System.exit(0);
+                        }});
+        }
         return guessedLetters;
+    }
+
+    public Boolean hasLetter(String letter){
+        Boolean value = false;
+        for(int i=0; i < arrayGuessedLetters.size(); i++){
+            if(arrayGuessedLetters.get(i).equals(letter)){
+                value = true;
+            }
+        }
+        return value;
     }
 
 }
