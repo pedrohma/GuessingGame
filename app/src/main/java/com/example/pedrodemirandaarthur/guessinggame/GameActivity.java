@@ -2,9 +2,11 @@ package com.example.pedrodemirandaarthur.guessinggame;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,7 @@ public class GameActivity extends AppCompatActivity {
     ArrayList<String> arrayGuessedLetters = new ArrayList<String>();
 
     boolean isOk = true;
+    boolean youWin = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +56,7 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
+                isOk = true;
                 guessingLetter = inputLetter.getText().toString();
 
                 if(guessingLetter.length() > 1){
@@ -67,9 +70,69 @@ public class GameActivity extends AppCompatActivity {
                 if(isOk){
                     hideWord.setText(checkLetter(guessingLetter));
                     inputLetter.setText("");
+                    if(youWin()){
+                        hideWord.setText("You win the game!");
+                        inputLetter.setFocusable(false);
+                        inputLetter.setEnabled(false);
+                        inputLetter.setCursorVisible(false);
+                        inputLetter.setKeyListener(null);
+                        inputLetter.setBackgroundColor(Color.TRANSPARENT);
+                        btnTry.setClickable(false);
+                        endGame();
+                    }
+                    else{
+                        youLose();
+                    }
                 }
             }
         });
+    }
+
+    public void endGame(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("You win!")
+                .setMessage("Do you want to play again?")
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        MainActivity mainActivity = new MainActivity();
+                        Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                })
+                .setNeutralButton(android.R.string.untitled, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+
+                    }
+                });
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    public void youLose(){
+        if(arrayGuessedLetters.size() >= 5){
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Game Over!")
+                    .setMessage("Do you want to play again?")
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            MainActivity mainActivity = new MainActivity();
+                            Intent intent = new Intent(GameActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    android.os.Process.killProcess(android.os.Process.myPid());
+                    System.exit(1);
+                }
+            });
+            AlertDialog alert = builder.create();
+            alert.show();
+        }
     }
 
     public String checkLetter(String letter){
@@ -78,7 +141,12 @@ public class GameActivity extends AppCompatActivity {
         Boolean thereIs = false;
         for(int i = 0; i < arrayWord.length; i++){
             if(arrayWord[i] == charLetter){
-                arrayHideWord[i] = charLetter;
+                if(i == 0){
+                    arrayHideWord[i] = charLetter;
+                }
+                else{
+                    arrayHideWord[i * 2] = charLetter;
+                }
                 thereIs = true;
             }
         }
@@ -104,25 +172,9 @@ public class GameActivity extends AppCompatActivity {
 
     public String ReturnGuessedLetters(){
         String guessedLetters = "";
-        for(int i = 0; i < arrayGuessedLetters.size(); i++){
+        for(int i = 0; i < arrayGuessedLetters.size(); i++) {
             guessedLetters = guessedLetters + arrayGuessedLetters.get(i) + " ";
-        }
-        if(arrayGuessedLetters.size() == 5){
-            new AlertDialog.Builder(this)
-                    .setTitle("Game Over!")
-                    .setMessage("Do you want to play again?")
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            MainActivity activity = new MainActivity();
-                            Intent intent = new Intent(GameActivity.this, MainActivity.class);
-                            startActivity(intent);
-                        }})
-                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            GameActivity.this.finish();
-                            System.exit(0);
-                        }});
+            Log.d("arrayGuessedLetters", "array -> " + arrayGuessedLetters.size());
         }
         return guessedLetters;
     }
@@ -135,6 +187,19 @@ public class GameActivity extends AppCompatActivity {
             }
         }
         return value;
+    }
+
+    public Boolean youWin(){
+        int win = 0;
+        for(int i = 0; i < arrayHideWord.length; i++){
+            if(arrayHideWord[i] == new String("_").charAt(0)){
+                win += 1;
+            }
+        }
+        if(win < 1){
+            youWin = true;
+        }
+        return youWin;
     }
 
 }

@@ -23,6 +23,9 @@ public class MainActivity extends AppCompatActivity {
         wordEditText = (EditText) findViewById(R.id.word);
         btnStart = (Button) findViewById(R.id.start);
 
+        clueWordEditText.setText("");
+        wordEditText.setText("");
+
         btnStart.setOnClickListener(new View.OnClickListener() {
 
             @Override
