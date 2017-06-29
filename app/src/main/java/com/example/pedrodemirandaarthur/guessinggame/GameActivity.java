@@ -6,7 +6,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -49,7 +48,7 @@ public class GameActivity extends AppCompatActivity {
         arrayWord = word.toCharArray();
         arrayHideWord = HideWord(word).toCharArray();
 
-        clue.setText(clueWord);
+        clue.setText("Clue: " + clueWord);
         hideWord.setText(HideWord(word));
 
         btnTry.setOnClickListener(new View.OnClickListener() {
@@ -69,6 +68,7 @@ public class GameActivity extends AppCompatActivity {
                 }
                 if(isOk){
                     hideWord.setText(checkLetter(guessingLetter));
+                    hideWord.setTextColor(Color.parseColor("#007ba7"));
                     inputLetter.setText("");
                     if(youWin()){
                         hideWord.setText("You win the game!");
@@ -100,10 +100,10 @@ public class GameActivity extends AppCompatActivity {
                         startActivity(intent);
                     }
                 })
-                .setNeutralButton(android.R.string.untitled, new DialogInterface.OnClickListener() {
+                .setNeutralButton(android.R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-
+                        returnHomeView();
                     }
                 });
         AlertDialog alert = builder.create();
@@ -126,8 +126,7 @@ public class GameActivity extends AppCompatActivity {
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    android.os.Process.killProcess(android.os.Process.myPid());
-                    System.exit(1);
+                    returnHomeView();
                 }
             });
             AlertDialog alert = builder.create();
@@ -174,7 +173,6 @@ public class GameActivity extends AppCompatActivity {
         String guessedLetters = "";
         for(int i = 0; i < arrayGuessedLetters.size(); i++) {
             guessedLetters = guessedLetters + arrayGuessedLetters.get(i) + " ";
-            Log.d("arrayGuessedLetters", "array -> " + arrayGuessedLetters.size());
         }
         return guessedLetters;
     }
@@ -200,6 +198,13 @@ public class GameActivity extends AppCompatActivity {
             youWin = true;
         }
         return youWin;
+    }
+
+    public void returnHomeView(){
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
     }
 
 }
