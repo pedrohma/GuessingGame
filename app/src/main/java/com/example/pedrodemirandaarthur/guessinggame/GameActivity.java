@@ -36,14 +36,7 @@ public class GameActivity extends AppCompatActivity {
 
         Intent i = getIntent();
 
-        clue = (TextView) findViewById(R.id.clue);
-        hideWord = (TextView) findViewById(R.id.hideWord);
-        btnTry = (Button) findViewById(R.id.btnTry);
-        inputLetter = (EditText) findViewById(R.id.inputLetter);
-        guessedLetters = (TextView) findViewById(R.id.guessedLetters);
-
-        clueWord =  (String) i.getSerializableExtra("clueWord");
-        word =  (String) i.getSerializableExtra("word");
+        populateFields(i);
 
         arrayWord = word.toCharArray();
         arrayHideWord = HideWord(word).toCharArray();
@@ -55,29 +48,16 @@ public class GameActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                isOk = true;
                 guessingLetter = inputLetter.getText().toString();
 
-                if(guessingLetter.length() > 1){
-                    inputLetter.setError("Just one letter per time.");
-                    isOk = false;
-                }
-                if(guessingLetter.isEmpty()){
-                    inputLetter.setError("Can't be empty.");
-                    isOk = false;
-                }
+                isOk = validateGuessingLetter(guessingLetter);
+
                 if(isOk){
                     hideWord.setText(checkLetter(guessingLetter));
                     hideWord.setTextColor(Color.parseColor("#007ba7"));
                     inputLetter.setText("");
                     if(youWin()){
-                        hideWord.setText("You win the game!");
-                        inputLetter.setFocusable(false);
-                        inputLetter.setEnabled(false);
-                        inputLetter.setCursorVisible(false);
-                        inputLetter.setKeyListener(null);
-                        inputLetter.setBackgroundColor(Color.TRANSPARENT);
-                        btnTry.setClickable(false);
+                        populateYouWin();
                         endGame();
                     }
                     else{
@@ -86,6 +66,45 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private void populateYouWin() {
+        hideWord.setText("You win the game!");
+        inputLetter.setFocusable(false);
+        inputLetter.setEnabled(false);
+        inputLetter.setCursorVisible(false);
+        inputLetter.setKeyListener(null);
+        inputLetter.setBackgroundColor(Color.TRANSPARENT);
+        btnTry.setClickable(false);
+    }
+
+    private boolean validateGuessingLetter(String guessingLetter) {
+        boolean isOk = true;
+        try{
+            if(guessingLetter.length() > 1){
+                inputLetter.setError("Just one letter per time.");
+                isOk = false;
+            }
+            if(guessingLetter.isEmpty()){
+                inputLetter.setError("Can't be empty.");
+                isOk = false;
+            }
+        }
+        catch (Exception ex){
+            String error = ex.getMessage();
+        }
+        return isOk;
+    }
+
+    private void populateFields(Intent i) {
+        clue = (TextView) findViewById(R.id.clue);
+        hideWord = (TextView) findViewById(R.id.hideWord);
+        btnTry = (Button) findViewById(R.id.btnTry);
+        inputLetter = (EditText) findViewById(R.id.inputLetter);
+        guessedLetters = (TextView) findViewById(R.id.guessedLetters);
+
+        clueWord =  (String) i.getSerializableExtra("clueWord");
+        word =  (String) i.getSerializableExtra("word");
     }
 
     public void endGame(){
